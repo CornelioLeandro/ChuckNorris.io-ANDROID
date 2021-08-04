@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         presenter = new CategoryPresenter(this);
-        presenter.requestAll();
+        presenter.requestAll()
 
     }
 
