@@ -1,6 +1,7 @@
 package com.leandro.chocknorrisio;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,9 +12,12 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.leandro.chocknorrisio.datasource.CategoryRemoteDataSource;
 import com.leandro.chocknorrisio.model.CategoryItem;
 import com.leandro.chocknorrisio.presentation.CategoryPresenter;
 import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.Item;
+import com.xwray.groupie.OnItemClickListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -56,10 +60,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         RecyclerView rv = findViewById(R.id.rv_main);
 
         adapter = new GroupAdapter();
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull Item item, @NonNull View view) {
+                Intent intent = new Intent(MainActivity.this, JokeActivity.class);
+
+                intent.putExtra(JokeActivity.CATEGORY_KEY,((CategoryItem)item ).getCategoryName());
+                startActivity(intent);
+
+            }
+        });
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter = new CategoryPresenter(this);
+        CategoryRemoteDataSource dataSource = new CategoryRemoteDataSource();
+        presenter = new CategoryPresenter(this,dataSource);
         presenter.requestAll();
 
     }

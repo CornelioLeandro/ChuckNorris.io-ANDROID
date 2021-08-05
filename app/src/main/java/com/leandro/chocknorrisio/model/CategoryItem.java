@@ -25,6 +25,10 @@ public class CategoryItem extends Item<ViewHolder> {
         viewHolder.itemView.setBackgroundColor(bgColor);
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
     @Override
     public int getLayout() {
         return R.layout.card_category;
