@@ -1,6 +1,7 @@
 package com.leandro.chocknorrisio;
 
 import android.app.ProgressDialog;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -8,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.leandro.chocknorrisio.datasource.JokeRemoteDataSource;
 import com.leandro.chocknorrisio.model.Joke;
 import com.leandro.chocknorrisio.presentation.JokePresenter;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,32 +37,33 @@ public class JokeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         String category = getIntent().getExtras().getString(CATEGORY_KEY);
-        Log.i("TESTE", category);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(category);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             JokeRemoteDataSource dataSource = new JokeRemoteDataSource();
-           final  JokePresenter presenter = new JokePresenter(this, dataSource);
+            final JokePresenter presenter = new JokePresenter(this, dataSource);
 
             presenter.findJokeBy(category);
 
             FloatingActionButton fab = findViewById(R.id.fab);
-            fab.setOnClickListener(view ->{
+            fab.setOnClickListener(view -> {
                 presenter.findJokeBy(category);
 
             });
         }
     }
 
-    public void showJoke(Joke joke){
-       TextView txtJoke = findViewById(R.id.txt_joke);
-       txtJoke.setText(joke.getValue());
+    public void showJoke(Joke joke) {
+        TextView txtJoke = findViewById(R.id.txt_joke);
+        txtJoke.setText(joke.getValue());
+        ImageView iv = findViewById(R.id.img_icon);
+        Picasso.get().load(joke.getIconUrl()).into(iv);
     }
 
-    public void showFailure(String messange){
-        Toast.makeText(this,messange, Toast.LENGTH_SHORT).show();
+    public void showFailure(String messange) {
+        Toast.makeText(this, messange, Toast.LENGTH_SHORT).show();
     }
 
     public void showProgressBar() {
@@ -80,7 +84,7 @@ public class JokeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;

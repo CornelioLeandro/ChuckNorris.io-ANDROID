@@ -68,26 +68,29 @@ public class JokeRemoteDataSource  {
                 InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
                 JsonReader jsonReader = new JsonReader(new InputStreamReader(in));
-                jsonReader.beginArray();
+                jsonReader.beginObject();
 
                 String iconUrl = null;
                 String value = null;
 
                 while (jsonReader.hasNext()){
                     JsonToken token = jsonReader.peek();
+
                     if (token == JsonToken.NAME){
                         String name = jsonReader.nextName();
+
                         if (name.equals("category"))
                             jsonReader.skipValue();
-                        else if (name.equals("icon_url"))
+
+                        else if (name.equals("icon_url")) {
                             iconUrl = jsonReader.nextString();
-                        else if (name.equals("value"))
+                        } else if (name.equals("value")) {
                             value = jsonReader.nextString();
-                        else
+                        } else
                             jsonReader.skipValue();
                     }
                 }
-                new Joke(iconUrl,value);
+                joke = new Joke(iconUrl,value);
                 jsonReader.endObject();
 
             } catch (MalformedURLException e) {

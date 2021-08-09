@@ -6,5 +6,5 @@ public class EndPoint {
 
     static final String GET_CATEGORIES = BASE_URL + "jokes/categories";
 
-    static final String GET_JOKE = BASE_URL + "jokes/random"; //?category={category}
+    static final String GET_JOKE = BASE_URL + "jokes/random"; //?category=animal
 }
