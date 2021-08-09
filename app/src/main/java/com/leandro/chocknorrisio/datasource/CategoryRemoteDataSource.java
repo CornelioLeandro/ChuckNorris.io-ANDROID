@@ -45,15 +45,15 @@ public class CategoryRemoteDataSource {
         protected List<String> doInBackground(Void... voids) {
 
             List<String> response = new ArrayList<>();
-            HttpsURLConnection urlConnection = null;
+            HttpsURLConnection urlConnection;
             try {
                 URL url = new URL(EndPoint.GET_CATEGORIES);
                 urlConnection = (HttpsURLConnection) url.openConnection();
                 urlConnection.setReadTimeout(2000);
                 urlConnection.setConnectTimeout(2000);
                 int responseCode = urlConnection.getResponseCode();
-                //erros acima de 400..geralmente
-                //acertp codigo 200
+                //erros acima de 400
+                //acerto 200
                 if (responseCode > 400){
                     throw new IOException("Erro na comunicacao do servidor");
                 }
@@ -76,7 +76,7 @@ public class CategoryRemoteDataSource {
         }
 
         @Override
-        protected void onPostExecute(List<String> strings) {
+        protected void onPostExecute(List<String> strings) { //MAINTHREAD VISUALIZAÇÃO
             if (errorMessage!= null){
                 Log.i("TESTE", errorMessage);
                 callback.onError(errorMessage);

@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CategoryPresenter implements CategoryRemoteDataSource.ListCategoriesCallback {
 
-    private static List<CategoryItem> fakeResponse = new ArrayList<>();
     private final MainActivity view;
     private final CategoryRemoteDataSource datasource;
 
